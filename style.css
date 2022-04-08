@@ -1,0 +1,7 @@
+/* Giới hạn độ dài văn bản */
+overflow: hidden;
+text-overflow: ellipsis;
+-webkit-line-clamp: 2;
+height: 50px;
+display: -webkit-box;
+-webkit-box-orient: vertical;
