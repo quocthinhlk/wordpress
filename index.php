@@ -4,7 +4,7 @@ function my_custom_login_logo() {
     $logo_url = wp_get_attachment_image_src( $custom_logo_id , 'full' )[0];
     echo '<style type="text/css">
         body.login div#login h1 a {
-            background-image: url('.$logo_url.');
+            background-image: url('.$logo_url.') !important;
             background-size: contain;
             height: 100px;
             width: auto;
@@ -12,3 +12,7 @@ function my_custom_login_logo() {
     </style>';
 }
 add_action( 'login_enqueue_scripts', 'my_custom_login_logo' );
+
+
+<!-- Link payment for order pending -->
+$order->get_checkout_payment_url()
