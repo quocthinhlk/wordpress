@@ -16,3 +16,35 @@ add_action( 'login_enqueue_scripts', 'my_custom_login_logo' );
 
 <!-- Link payment for order pending -->
 $order->get_checkout_payment_url()
+
+
+<!-- Update fee -->
+add_action('woocommerce_checkout_order_review','show_discount_from_point',9);
+add_action('wp_ajax_update_fee', 'tgb_update_fee');
+add_action('wp_ajax_nopriv_update_fee', 'tgb_update_fee');
+function tgb_update_fee() {
+    $manual_point = (int)$_POST['manual_point'];
+    echo $manual_point;
+    WC()->session->set( 'number_point_applied' , $manual_point );
+}
+
+add_action( 'woocommerce_cart_calculate_fees','woocommerce_custom_surcharge', 10, 1 );
+function woocommerce_custom_surcharge( $cart_object ) {
+    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) return;
+    $manual_point = WC()->session->get( 'number_point_applied' );
+    $payment_method = WC()->session->get('chosen_payment_method');
+    
+    if($manual_point > 0 && $payment_method != 'tgbpoint'){
+        // $user_id = get_current_user_id();
+        // $tgbpoint = new TgbPoint($user_id);
+        $point_text = 'Points used ('.$manual_point.' points)';
+        $cart_object->add_fee( $point_text, -$manual_point, true, '' );
+    }
+}
+
+add_action('woocommerce_checkout_order_processed', 'enroll_student', 10, 1);
+function enroll_student($order_id){
+    WC()->session->set( 'number_point_applied', 0 );
+    $order = new WC_Order($order_id);
+}
+<!-- End update fee -->
