@@ -48,3 +48,9 @@ function enroll_student($order_id){
     $order = new WC_Order($order_id);
 }
 <!-- End update fee -->
+
+<!-- Remove password verify default wordpress -->
+function iconic_remove_password_strength() {
+    wp_dequeue_script( 'wc-password-strength-meter' );
+}
+add_action( 'wp_print_scripts', 'iconic_remove_password_strength', 10 );
