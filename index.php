@@ -54,3 +54,19 @@ function iconic_remove_password_strength() {
     wp_dequeue_script( 'wc-password-strength-meter' );
 }
 add_action( 'wp_print_scripts', 'iconic_remove_password_strength', 10 );
+
+
+<!-- Đổ tên và sắp xếp My account -->
+function my_custom_my_account_menu_items( $items ) {
+    $items = array(
+        'orders'            => __( 'Booking details', 'woocommerce' ),
+        'dashboard'         => __( 'Point details', 'woocommerce' ),
+        'edit-address'    => __( 'Addresses', 'woocommerce' ),
+        // 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
+        'edit-account'      => __( 'Account detail', 'woocommerce' ),
+        'customer-logout'   => __( 'Logout', 'woocommerce' ),
+    );
+
+    return $items;
+}
+add_filter( 'woocommerce_account_menu_items', 'my_custom_my_account_menu_items' );
