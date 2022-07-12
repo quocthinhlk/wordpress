@@ -70,3 +70,29 @@ function my_custom_my_account_menu_items( $items ) {
     return $items;
 }
 add_filter( 'woocommerce_account_menu_items', 'my_custom_my_account_menu_items' );
+
+
+<!--  WordPress custom pagination with $wpdb->get_results  -->
+$items_per_page = 2;
+$page = isset( $_GET['cpage'] ) ? abs( (int) $_GET['cpage'] ) : 1;
+$offset = ( $page * $items_per_page ) - $items_per_page;
+
+$query = 'SELECT * FROM '.$table_name;
+
+$total_query = "SELECT COUNT(1) FROM (${query}) AS combined_table";
+$total = $wpdb->get_var( $total_query );
+
+$results = $wpdb->get_results( $query.' ORDER BY id DESC LIMIT '. $offset.', '. $items_per_page, OBJECT );
+/*
+*
+* Here goes the loop
+*
+***/
+echo paginate_links( array(
+        'base' => add_query_arg( 'cpage', '%#%' ),
+        'format' => '',
+        'prev_text' => __('&laquo;'),
+        'next_text' => __('&raquo;'),
+        'total' => ceil($total / $items_per_page),
+        'current' => $page
+    ));
