@@ -96,3 +96,13 @@ echo paginate_links( array(
         'total' => ceil($total / $items_per_page),
         'current' => $page
     ));
+
+
+
+
+<!-- Search order by post_meta -->
+add_filter( 'woocommerce_shop_order_search_fields', 'booking_remarks_search_fields', 10, 1 );
+function booking_remarks_search_fields( $meta_keys ){
+    $meta_keys[] = 'booking_remarks';
+    return $meta_keys;
+}
