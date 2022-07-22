@@ -106,3 +106,11 @@ function booking_remarks_search_fields( $meta_keys ){
     $meta_keys[] = 'booking_remarks';
     return $meta_keys;
 }
+
+<!-- Check product category isset cart -->
+foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+	if ( has_term( 106, 'product_cat', $cart_item['product_id'] ) ) {
+		$futsal_in_cart = true;
+		break;
+	}
+}
